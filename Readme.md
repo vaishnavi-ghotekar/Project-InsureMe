@@ -139,13 +139,13 @@ pipeline {
     environment {
      SCANNER_HOME = tool 'sonar-scanner'
      S3_BUCKET = "project-insure-me-build-artifacts-store-oncdecb36"
-     REGION = "ap-southeast-1"
+     REGION = "ap-south-1"
      warFile = "target/Insurance-0.0.1-SNAPSHOT.jar"
      }
     stages {
         stage('code-pull'){
             steps{
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/abhipraydhoble/Project-InsureMe.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/vaishnavighotekar/Project-InsureMe.git']])
             }
         }
         stage('code-build'){
@@ -184,8 +184,7 @@ pipeline {
         }
        stage('docker-image'){
             steps{
-                sh 'docker build -t abhipraydh96/insureb36 .'
-                
+                sh 'docker build -t vaishnavighotekar/insureme .'
             }
         }
         
@@ -193,14 +192,14 @@ pipeline {
             steps {
        	       withCredentials([usernamePassword(credentialsId: 'docker-cred', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
             	sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                sh 'docker push abhipraydh96/insureb36'
+                sh 'docker push vaishnavighotekar/insureme'
                }
             }
         } 
         
         stage('code-deploy'){
             steps{
-                sh 'docker run -itd --name insure-me -p 8089:8081 abhipraydh96/insureb36'
+                sh 'docker run -itd --name insure-me -p 8089:8081 vaishnavighotekar/insureme'
             }
         }
     }
@@ -218,7 +217,7 @@ pipeline {
 
    environment {
      S3_BUCKET = "project-insure-me-build-artifacts-store"
-     REGION = "ap-southeast-1"
+     REGION = "ap-south-1"
      warFile = "target/Insurance-0.0.1-SNAPSHOT.jar"
    }
 
@@ -226,7 +225,7 @@ pipeline {
 stages{
     stage('code-pull'){
         steps{
-            checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/abhipraydhoble/Project-InsureMe.git']])
+            checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/vaishnavi-ghotekar/Project-InsureMe.git']])
         }
     }
 
