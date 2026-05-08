@@ -1,7 +1,7 @@
 
 ```groovy
 pipeline {
-    agent any
+    agent an
     
     tools {
         maven 'maven'
